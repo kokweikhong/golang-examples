@@ -1,7 +1,21 @@
 package main
 
-import "fmt"
+import (
+	"log"
+	"net/http"
+)
 
 func main() {
-    fmt.Println("Hello, World!")
+
+	http.Handle("/records/", validateToken(handleGetRecords))
+
+	// register handler
+	http.HandleFunc("/register/", handleRegister)
+
+	// login handler
+	http.HandleFunc("/login/", handleLogin)
+
+	// listen to port with log fatal
+	log.Println("Listening on port 8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
